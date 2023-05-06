@@ -1,14 +1,14 @@
 from prometheus_client import start_http_server, Counter, Gauge, Histogram
 import re
 from datetime import datetime
-
+# start_http_server(8601)
 # Define Prometheus metrics
 num_errors = Counter('num_errors', 'Number of ERROR messages')
 num_info = Counter('num_info', 'Number of INFO messages')
 num_warning = Counter('num_warning', 'Number of WARNING messages')
 func_execution_time = Histogram('func_execution_time', 'Time taken to execute each function', ['function_name'])
 common_errors = Counter('common_errors', 'Most common errors', ['error_type'])
-log_messages_per_module = Counter('log_messages_per_module', 'Distribution of log messages across different modules', ['module_name'])
+log_messages_per_module = Counter('log_messages_per_module', 'Distribution of log messages across different modules', ['filename'])
 avg_log_messages_per_module = Gauge('avg_log_messages_per_module', 'Average number of log messages per module', ['filename'])
 log_messages_per_function = Counter('log_messages_per_function', 'Number of log messages per function', ['function_name'])
 
@@ -58,6 +58,6 @@ def metrics():
                 avg_log_messages[module] = count / len(log_messages_per_module.labels._buckets[0]._value._value)
             avg_log_messages_per_module.set(avg_log_messages)
                  
-
+            return function_name, filename
 def summary():
     return "Logs Analysis."

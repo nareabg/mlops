@@ -8,5 +8,5 @@ RUN pip install connexion[swagger-ui]==2.14.2
 
 COPY . .
 
-EXPOSE 8000
+EXPOSE 2000
 CMD ["python", "openapi_main.py"]

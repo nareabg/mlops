@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 3600s  # How frequently to scrape targets.
+
+scrape_configs:
+  - job_name: app
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - ml_api:2000
+
