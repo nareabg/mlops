@@ -1,0 +1,488 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>zenq.api package &#8212; zenq 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="zenq.clvmodels package" href="zenq.clvmodels.html" />
+    <link rel="prev" title="zenq package" href="zenq.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="zenq-api-package">
+<h1>zenq.api package<a class="headerlink" href="#zenq-api-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-zenq.api.config">
+<span id="zenq-api-config-module"></span><h2>zenq.api.config module<a class="headerlink" href="#module-zenq.api.config" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-zenq.api.endpoints">
+<span id="zenq-api-endpoints-module"></span><h2>zenq.api.endpoints module<a class="headerlink" href="#module-zenq.api.endpoints" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="zenq.api.endpoints.insert_facts">
+<span class="sig-prename descclassname"><span class="pre">zenq.api.endpoints.</span></span><span class="sig-name descname"><span class="pre">insert_facts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoice_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_price</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zenq/api/endpoints.html#insert_facts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.api.endpoints.insert_facts" title="Permalink to this definition">¶</a></dt>
+<dd><section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h3>
+<p>filename : the name of the file (ex. globbing.csv)</p>
+<p>customer_id : customer id column mapping</p>
+<p>gender : gender column mapping</p>
+<p>invoice_id : transaction id column mapping</p>
+<p>date : date column mapping</p>
+<p>quantity : quantity/weight column mapping</p>
+<p>total_price : price column mapping</p>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Permalink to this heading">¶</a></h3>
+<p>inserts data into FACTS table of database</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="zenq.api.endpoints.insert_logs_to_db">
+<span class="sig-prename descclassname"><span class="pre">zenq.api.endpoints.</span></span><span class="sig-name descname"><span class="pre">insert_logs_to_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'zenq/api/logs.log'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zenq/api/endpoints.html#insert_logs_to_db"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.api.endpoints.insert_logs_to_db" title="Permalink to this definition">¶</a></dt>
+<dd><section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<dl class="simple">
+<dt>log_file_path :</dt><dd><p>(Default value = ‘zenq/api/logs.log’)</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h3>Returns<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<p>inserts data into database LOGS table</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="zenq.api.endpoints.update_log">
+<span class="sig-prename descclassname"><span class="pre">zenq.api.endpoints.</span></span><span class="sig-name descname"><span class="pre">update_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'zenq/api/logs.log'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zenq/api/endpoints.html#update_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.api.endpoints.update_log" title="Permalink to this definition">¶</a></dt>
+<dd><section id="id3">
+<h3>Parameters<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+<dl class="simple">
+<dt>log_file_path :</dt><dd><p>(Default value = ‘zenq/api/logs.log’)</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h3>Returns<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
+<p>inserts into LOGS table data that are bigger than the mac date in the database</p>
+</section>
+</dd></dl>
+
+</section>
+<section id="module-zenq.api.prepare_db">
+<span id="zenq-api-prepare-db-module"></span><h2>zenq.api.prepare_db module<a class="headerlink" href="#module-zenq.api.prepare_db" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="zenq.api.prepare_db.db">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zenq.api.prepare_db.</span></span><span class="sig-name descname"><span class="pre">db</span></span><a class="reference internal" href="_modules/zenq/api/prepare_db.html#db"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.api.prepare_db.db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>class provides methods for creating and managing a database</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="zenq.api.prepare_db.db.main">
+<span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zenq/api/prepare_db.html#db.main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.api.prepare_db.db.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>initializing the database, dropping and creating tables using metadata</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-zenq.api.tables">
+<span id="zenq-api-tables-module"></span><h2>zenq.api.tables module<a class="headerlink" href="#module-zenq.api.tables" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zenq.api.tables.</span></span><span class="sig-name descname"><span class="pre">Facts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zenq/api/tables.html#Facts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.api.tables.Facts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Base</span></code></p>
+<p>class defines the structure and behavior of database tables in both schemas</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.CLTV">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CLTV</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zenq/api/tables.html#Facts.CLTV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.api.tables.Facts.CLTV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Base</span></code></p>
+<p>define the CLTV table</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.CLTV.T">
+<span class="sig-name descname"><span class="pre">T</span></span><a class="headerlink" href="#zenq.api.tables.Facts.CLTV.T" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.CLTV.customer_id">
+<span class="sig-name descname"><span class="pre">customer_id</span></span><a class="headerlink" href="#zenq.api.tables.Facts.CLTV.customer_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.CLTV.frequency">
+<span class="sig-name descname"><span class="pre">frequency</span></span><a class="headerlink" href="#zenq.api.tables.Facts.CLTV.frequency" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.CLTV.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#zenq.api.tables.Facts.CLTV.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.CLTV.min_date">
+<span class="sig-name descname"><span class="pre">min_date</span></span><a class="headerlink" href="#zenq.api.tables.Facts.CLTV.min_date" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.CLTV.monetary">
+<span class="sig-name descname"><span class="pre">monetary</span></span><a class="headerlink" href="#zenq.api.tables.Facts.CLTV.monetary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.CLTV.recency">
+<span class="sig-name descname"><span class="pre">recency</span></span><a class="headerlink" href="#zenq.api.tables.Facts.CLTV.recency" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.CustomerAlive">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CustomerAlive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zenq/api/tables.html#Facts.CustomerAlive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.api.tables.Facts.CustomerAlive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Base</span></code></p>
+<p>define the CustomerAlive table</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.CustomerAlive.Customer">
+<span class="sig-name descname"><span class="pre">Customer</span></span><a class="headerlink" href="#zenq.api.tables.Facts.CustomerAlive.Customer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.CustomerAlive.Probability_of_being_Alive">
+<span class="sig-name descname"><span class="pre">Probability_of_being_Alive</span></span><a class="headerlink" href="#zenq.api.tables.Facts.CustomerAlive.Probability_of_being_Alive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.CustomerAlive.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#zenq.api.tables.Facts.CustomerAlive.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.LOGS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LOGS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zenq/api/tables.html#Facts.LOGS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.api.tables.Facts.LOGS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Base</span></code></p>
+<p>define the LOGS table</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.LOGS.file_name">
+<span class="sig-name descname"><span class="pre">file_name</span></span><a class="headerlink" href="#zenq.api.tables.Facts.LOGS.file_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.LOGS.func_name">
+<span class="sig-name descname"><span class="pre">func_name</span></span><a class="headerlink" href="#zenq.api.tables.Facts.LOGS.func_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.LOGS.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#zenq.api.tables.Facts.LOGS.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.LOGS.level">
+<span class="sig-name descname"><span class="pre">level</span></span><a class="headerlink" href="#zenq.api.tables.Facts.LOGS.level" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.LOGS.line_number">
+<span class="sig-name descname"><span class="pre">line_number</span></span><a class="headerlink" href="#zenq.api.tables.Facts.LOGS.line_number" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.LOGS.load_time">
+<span class="sig-name descname"><span class="pre">load_time</span></span><a class="headerlink" href="#zenq.api.tables.Facts.LOGS.load_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.LOGS.message">
+<span class="sig-name descname"><span class="pre">message</span></span><a class="headerlink" href="#zenq.api.tables.Facts.LOGS.message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.ParetoParameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ParetoParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zenq/api/tables.html#Facts.ParetoParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.api.tables.Facts.ParetoParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Base</span></code></p>
+<p>define the ParetoParameters table</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.ParetoParameters.alpha">
+<span class="sig-name descname"><span class="pre">alpha</span></span><a class="headerlink" href="#zenq.api.tables.Facts.ParetoParameters.alpha" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.ParetoParameters.beta">
+<span class="sig-name descname"><span class="pre">beta</span></span><a class="headerlink" href="#zenq.api.tables.Facts.ParetoParameters.beta" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.ParetoParameters.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#zenq.api.tables.Facts.ParetoParameters.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.ParetoParameters.r">
+<span class="sig-name descname"><span class="pre">r</span></span><a class="headerlink" href="#zenq.api.tables.Facts.ParetoParameters.r" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.ParetoParameters.s">
+<span class="sig-name descname"><span class="pre">s</span></span><a class="headerlink" href="#zenq.api.tables.Facts.ParetoParameters.s" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.Prediction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Prediction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zenq/api/tables.html#Facts.Prediction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.api.tables.Facts.Prediction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Base</span></code></p>
+<p>define the Prediction table</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.Prediction.Customer">
+<span class="sig-name descname"><span class="pre">Customer</span></span><a class="headerlink" href="#zenq.api.tables.Facts.Prediction.Customer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.Prediction.Expected_Purchases_180">
+<span class="sig-name descname"><span class="pre">Expected_Purchases_180</span></span><a class="headerlink" href="#zenq.api.tables.Facts.Prediction.Expected_Purchases_180" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.Prediction.Expected_Purchases_30">
+<span class="sig-name descname"><span class="pre">Expected_Purchases_30</span></span><a class="headerlink" href="#zenq.api.tables.Facts.Prediction.Expected_Purchases_30" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.Prediction.Expected_Purchases_360">
+<span class="sig-name descname"><span class="pre">Expected_Purchases_360</span></span><a class="headerlink" href="#zenq.api.tables.Facts.Prediction.Expected_Purchases_360" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.Prediction.Expected_Purchases_90">
+<span class="sig-name descname"><span class="pre">Expected_Purchases_90</span></span><a class="headerlink" href="#zenq.api.tables.Facts.Prediction.Expected_Purchases_90" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.Prediction.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#zenq.api.tables.Facts.Prediction.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.RFMScore">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RFMScore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zenq/api/tables.html#Facts.RFMScore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.api.tables.Facts.RFMScore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Base</span></code></p>
+<p>define the RFMScore table</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.RFMScore.RFM_SCORE">
+<span class="sig-name descname"><span class="pre">RFM_SCORE</span></span><a class="headerlink" href="#zenq.api.tables.Facts.RFMScore.RFM_SCORE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.RFMScore.customer_id">
+<span class="sig-name descname"><span class="pre">customer_id</span></span><a class="headerlink" href="#zenq.api.tables.Facts.RFMScore.customer_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.RFMScore.frequency_score">
+<span class="sig-name descname"><span class="pre">frequency_score</span></span><a class="headerlink" href="#zenq.api.tables.Facts.RFMScore.frequency_score" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.RFMScore.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#zenq.api.tables.Facts.RFMScore.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.RFMScore.monetary_score">
+<span class="sig-name descname"><span class="pre">monetary_score</span></span><a class="headerlink" href="#zenq.api.tables.Facts.RFMScore.monetary_score" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.RFMScore.recency_score">
+<span class="sig-name descname"><span class="pre">recency_score</span></span><a class="headerlink" href="#zenq.api.tables.Facts.RFMScore.recency_score" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.RFMScore.segment">
+<span class="sig-name descname"><span class="pre">segment</span></span><a class="headerlink" href="#zenq.api.tables.Facts.RFMScore.segment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.connect_to_db">
+<span class="sig-name descname"><span class="pre">connect_to_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_uri</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zenq/api/tables.html#Facts.connect_to_db"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.api.tables.Facts.connect_to_db" title="Permalink to this definition">¶</a></dt>
+<dd><section id="id5">
+<h3>Parameters<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
+<dl class="simple">
+<dt>db_uri<span class="classifier">specifies the location and credentials to connect to a PostgreSQL database </span></dt><dd><p>(is defined by importing from config.py)</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h3>Returns<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h3>
+<p>metadata
+engine</p>
+</section>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.customer_id">
+<span class="sig-name descname"><span class="pre">customer_id</span></span><a class="headerlink" href="#zenq.api.tables.Facts.customer_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.date">
+<span class="sig-name descname"><span class="pre">date</span></span><a class="headerlink" href="#zenq.api.tables.Facts.date" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.gender">
+<span class="sig-name descname"><span class="pre">gender</span></span><a class="headerlink" href="#zenq.api.tables.Facts.gender" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#zenq.api.tables.Facts.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.invoice_id">
+<span class="sig-name descname"><span class="pre">invoice_id</span></span><a class="headerlink" href="#zenq.api.tables.Facts.invoice_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.quantity">
+<span class="sig-name descname"><span class="pre">quantity</span></span><a class="headerlink" href="#zenq.api.tables.Facts.quantity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.total_price">
+<span class="sig-name descname"><span class="pre">total_price</span></span><a class="headerlink" href="#zenq.api.tables.Facts.total_price" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="zenq.api.tables.Facts.unit_price">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unit_price</span></span><a class="headerlink" href="#zenq.api.tables.Facts.unit_price" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates the price per unit of the product purchased in a transaction</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-zenq.api">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-zenq.api" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">zenq</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">zenq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">zenq</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app.html">app module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages.html">pages package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="zenq.html">zenq package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">zenq</a><ul>
+  <li><a href="zenq.html">zenq package</a><ul>
+      <li>Previous: <a href="zenq.html" title="previous chapter">zenq package</a></li>
+      <li>Next: <a href="zenq.clvmodels.html" title="next chapter">zenq.clvmodels package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Nare Abgaryan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/zenq.api.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

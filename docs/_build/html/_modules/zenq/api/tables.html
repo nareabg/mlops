@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>zenq.api.tables &#8212; zenq 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for zenq.api.tables</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sqlalchemy</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span><span class="p">,</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">UniqueConstraint</span> <span class="p">,</span> <span class="n">text</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy_utils</span> <span class="kn">import</span> <span class="n">database_exists</span><span class="p">,</span> <span class="n">create_database</span><span class="p">,</span> <span class="n">drop_database</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">sessionmaker</span><span class="p">,</span> <span class="n">relationship</span><span class="p">,</span> <span class="n">declarative_base</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.schema</span> <span class="kn">import</span> <span class="n">CreateSchema</span>
+
+<span class="c1"># Importing custom logger from local packages</span>
+<span class="kn">from</span> <span class="nn">zenq.logger</span> <span class="kn">import</span> <span class="n">CustomFormatter</span><span class="p">,</span> <span class="n">bcolors</span>
+
+<span class="c1"># Basic logging configuration and initialization</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span> <span class="nb">format</span> <span class="o">=</span> <span class="s2">&quot;/</span><span class="si">%(asctime)s</span><span class="s2"> / </span><span class="si">%(name)s</span><span class="s2"> / </span><span class="si">%(levelname)s</span><span class="s2"> / </span><span class="si">%(message)s</span><span class="s2"> /</span><span class="si">%(filename)s</span><span class="s2">/</span><span class="si">%(lineno)d</span><span class="s2">/&quot;</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+<span class="n">ch</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">ch</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="n">ch</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">CustomFormatter</span><span class="p">())</span>
+
+<span class="n">file_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="s1">&#39;../zenq/api/logs.log&#39;</span><span class="p">)</span>
+<span class="n">file_handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">file_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">CustomFormatter</span><span class="p">())</span>
+
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">file_handler</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+
+<span class="c1"># Create a base class for SQLAlchemy&#39;s ORM to inherit from</span>
+<span class="n">Base</span> <span class="o">=</span> <span class="n">declarative_base</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Facts"><a class="viewcode-back" href="../../../zenq.api.html#zenq.api.tables.Facts">[docs]</a><span class="k">class</span> <span class="nc">Facts</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    class defines the structure and behavior of database tables in both schemas</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Facts.connect_to_db"><a class="viewcode-back" href="../../../zenq.api.html#zenq.api.tables.Facts.connect_to_db">[docs]</a>    <span class="k">def</span> <span class="nf">connect_to_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_uri</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        db_uri : specifies the location and credentials to connect to a PostgreSQL database </span>
+<span class="sd">                 (is defined by importing from config.py)</span>
+<span class="sd">            </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        metadata</span>
+<span class="sd">        engine</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># logger.info(f&quot;{self.connect_to_db.__name__}/Connecting to the database.&quot;) </span>
+        <span class="c1"># Create a database engine</span>
+        <span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">db_uri</span><span class="p">)</span>
+        <span class="c1"># Create a session factory for the engine</span>
+        <span class="n">Session</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+        <span class="c1"># Get the metadata object associated with the database tables</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">Base</span><span class="o">.</span><span class="n">metadata</span>
+        <span class="k">with</span> <span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Create a schema named &#39;initial&#39; if it doesn&#39;t exist yet</span>
+                <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">CreateSchema</span><span class="p">(</span><span class="s1">&#39;initial&#39;</span><span class="p">,</span> <span class="n">if_not_exists</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+            <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">SQLAlchemyError</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">connect_to_db</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">/Failed to create schema &#39;initial&#39;&quot;</span><span class="p">)</span>
+                <span class="k">pass</span>
+        <span class="k">with</span> <span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span> 
+                <span class="c1"># Create a schema named &#39;result&#39; if it doesn&#39;t exist yet</span>
+                <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">CreateSchema</span><span class="p">(</span><span class="s1">&#39;result&#39;</span><span class="p">,</span>  <span class="n">if_not_exists</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+            <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">SQLAlchemyError</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">connect_to_db</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">/Failed to create schema &#39;result&#39;&quot;</span><span class="p">)</span>
+                <span class="k">pass</span>       
+        <span class="c1"># Return the metadata and engine objects for further use    </span>
+        <span class="k">return</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">engine</span></div>
+    
+    <span class="c1"># Define the Facts table</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;Facts&#39;</span>
+    <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;schema&#39;</span><span class="p">:</span> <span class="s1">&#39;initial&#39;</span><span class="p">}</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">customer_id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">gender</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">invoice_id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span><span class="n">unique</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">quantity</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Float</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">total_price</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Float</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>   
+     
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">unit_price</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            calculates the price per unit of the product purchased in a transaction</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_price</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span>
+    
+
+<div class="viewcode-block" id="Facts.LOGS"><a class="viewcode-back" href="../../../zenq.api.html#zenq.api.tables.Facts.LOGS">[docs]</a>    <span class="k">class</span> <span class="nc">LOGS</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">            define the LOGS table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;LOGS&#39;</span>
+        <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;schema&#39;</span><span class="p">:</span> <span class="s1">&#39;initial&#39;</span><span class="p">}</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">200</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">func_name</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">200</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">2000</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">line_number</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">load_time</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>     </div>
+    
+          
+<div class="viewcode-block" id="Facts.CLTV"><a class="viewcode-back" href="../../../zenq.api.html#zenq.api.tables.Facts.CLTV">[docs]</a>    <span class="k">class</span> <span class="nc">CLTV</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">            define the CLTV table    </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;CLTV&#39;</span>
+        <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;schema&#39;</span><span class="p">:</span> <span class="s1">&#39;result&#39;</span><span class="p">}</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">customer_id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">min_date</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">recency</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">frequency</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">monetary</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Float</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Facts.CustomerAlive"><a class="viewcode-back" href="../../../zenq.api.html#zenq.api.tables.Facts.CustomerAlive">[docs]</a>    <span class="k">class</span> <span class="nc">CustomerAlive</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">            define the CustomerAlive table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;CustomerAlive&#39;</span>
+        <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;schema&#39;</span><span class="p">:</span> <span class="s1">&#39;result&#39;</span><span class="p">}</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Customer</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">Probability_of_being_Alive</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Float</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+    <span class="c1"># Define the Prediction table</span>
+<div class="viewcode-block" id="Facts.Prediction"><a class="viewcode-back" href="../../../zenq.api.html#zenq.api.tables.Facts.Prediction">[docs]</a>    <span class="k">class</span> <span class="nc">Prediction</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">            define the Prediction table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;Prediction&#39;</span>
+        <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;schema&#39;</span><span class="p">:</span> <span class="s1">&#39;result&#39;</span><span class="p">}</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Customer</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">Expected_Purchases_30</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Float</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">Expected_Purchases_90</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Float</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">Expected_Purchases_180</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Float</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">Expected_Purchases_360</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Float</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+    
+  
+<div class="viewcode-block" id="Facts.RFMScore"><a class="viewcode-back" href="../../../zenq.api.html#zenq.api.tables.Facts.RFMScore">[docs]</a>    <span class="k">class</span> <span class="nc">RFMScore</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            define the RFMScore table    </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;RFMScore&#39;</span>
+        <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;schema&#39;</span><span class="p">:</span> <span class="s1">&#39;result&#39;</span><span class="p">}</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">customer_id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">recency_score</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">frequency_score</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">monetary_score</span><span class="o">=</span><span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">RFM_SCORE</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">segment</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+         
+<div class="viewcode-block" id="Facts.ParetoParameters"><a class="viewcode-back" href="../../../zenq.api.html#zenq.api.tables.Facts.ParetoParameters">[docs]</a>    <span class="k">class</span> <span class="nc">ParetoParameters</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>     
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            define the ParetoParameters table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;ParetoParameters&#39;</span>
+        <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;schema&#39;</span><span class="p">:</span> <span class="s1">&#39;result&#39;</span><span class="p">}</span>        
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Float</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Float</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Float</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Float</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div></div>
+       
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">zenq</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">zenq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">zenq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Nare Abgaryan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

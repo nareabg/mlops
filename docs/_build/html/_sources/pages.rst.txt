@@ -1,0 +1,37 @@
+pages package
+=============
+
+Submodules
+----------
+
+pages.Calculate module
+----------------------
+
+.. automodule:: pages.Calculate
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pages.Details module
+--------------------
+
+.. automodule:: pages.Details
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pages.Home module
+-----------------
+
+.. automodule:: pages.Home
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pages
+   :members:
+   :undoc-members:
+   :show-inheritance:

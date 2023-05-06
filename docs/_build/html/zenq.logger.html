@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>zenq.logger package &#8212; zenq 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="zenq.visualizations package" href="zenq.visualizations.html" />
+    <link rel="prev" title="zenq.datapreparation package" href="zenq.datapreparation.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="zenq-logger-package">
+<h1>zenq.logger package<a class="headerlink" href="#zenq-logger-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-zenq.logger.logger">
+<span id="zenq-logger-logger-module"></span><h2>zenq.logger.logger module<a class="headerlink" href="#module-zenq.logger.logger" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="zenq.logger.logger.CustomFormatter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zenq.logger.logger.</span></span><span class="sig-name descname"><span class="pre">CustomFormatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datefmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zenq/logger/logger.html#CustomFormatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.logger.logger.CustomFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Formatter</span></code></p>
+<p>Custom formatter for Informative Logging</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.logger.logger.CustomFormatter.FORMATS">
+<span class="sig-name descname"><span class="pre">FORMATS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{10:</span> <span class="pre">'\x1b[38;20m/%(asctime)s</span> <span class="pre">/</span> <span class="pre">%(name)s</span> <span class="pre">/</span> <span class="pre">%(levelname)s</span> <span class="pre">/</span> <span class="pre">%(message)s</span> <span class="pre">/%(filename)s/%(lineno)d/\x1b[0m',</span> <span class="pre">20:</span> <span class="pre">'\x1b[38;20m/%(asctime)s</span> <span class="pre">/</span> <span class="pre">%(name)s</span> <span class="pre">/</span> <span class="pre">%(levelname)s</span> <span class="pre">/</span> <span class="pre">%(message)s</span> <span class="pre">/%(filename)s/%(lineno)d/\x1b[0m',</span> <span class="pre">30:</span> <span class="pre">'\x1b[33;20m/%(asctime)s</span> <span class="pre">/</span> <span class="pre">%(name)s</span> <span class="pre">/</span> <span class="pre">%(levelname)s</span> <span class="pre">/</span> <span class="pre">%(message)s</span> <span class="pre">/%(filename)s/%(lineno)d/\x1b[0m',</span> <span class="pre">40:</span> <span class="pre">'\x1b[31;20m/%(asctime)s</span> <span class="pre">/</span> <span class="pre">%(name)s</span> <span class="pre">/</span> <span class="pre">%(levelname)s</span> <span class="pre">/</span> <span class="pre">%(message)s</span> <span class="pre">/%(filename)s/%(lineno)d/\x1b[0m',</span> <span class="pre">50:</span> <span class="pre">'\x1b[31;1m/%(asctime)s</span> <span class="pre">/</span> <span class="pre">%(name)s</span> <span class="pre">/</span> <span class="pre">%(levelname)s</span> <span class="pre">/</span> <span class="pre">%(message)s</span> <span class="pre">/%(filename)s/%(lineno)d/\x1b[0m'}</span></em><a class="headerlink" href="#zenq.logger.logger.CustomFormatter.FORMATS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.logger.logger.CustomFormatter.bold_red">
+<span class="sig-name descname"><span class="pre">bold_red</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[31;1m'</span></em><a class="headerlink" href="#zenq.logger.logger.CustomFormatter.bold_red" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="zenq.logger.logger.CustomFormatter.format">
+<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zenq/logger/logger.html#CustomFormatter.format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.logger.logger.CustomFormatter.format" title="Permalink to this definition">¶</a></dt>
+<dd><section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h3>
+<p>record : takes the record</p>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Permalink to this heading">¶</a></h3>
+<p>returns formated(colored) output</p>
+</section>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.logger.logger.CustomFormatter.grey">
+<span class="sig-name descname"><span class="pre">grey</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[38;20m'</span></em><a class="headerlink" href="#zenq.logger.logger.CustomFormatter.grey" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.logger.logger.CustomFormatter.red">
+<span class="sig-name descname"><span class="pre">red</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[31;20m'</span></em><a class="headerlink" href="#zenq.logger.logger.CustomFormatter.red" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.logger.logger.CustomFormatter.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[0m'</span></em><a class="headerlink" href="#zenq.logger.logger.CustomFormatter.reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.logger.logger.CustomFormatter.yellow">
+<span class="sig-name descname"><span class="pre">yellow</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[33;20m'</span></em><a class="headerlink" href="#zenq.logger.logger.CustomFormatter.yellow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="zenq.logger.logger.bcolors">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">zenq.logger.logger.</span></span><span class="sig-name descname"><span class="pre">bcolors</span></span><a class="reference internal" href="_modules/zenq/logger/logger.html#bcolors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zenq.logger.logger.bcolors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>class for changing the colors of terminal for better navigation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.logger.logger.bcolors.BOLD">
+<span class="sig-name descname"><span class="pre">BOLD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[1m'</span></em><a class="headerlink" href="#zenq.logger.logger.bcolors.BOLD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.logger.logger.bcolors.ENDC">
+<span class="sig-name descname"><span class="pre">ENDC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[0m'</span></em><a class="headerlink" href="#zenq.logger.logger.bcolors.ENDC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.logger.logger.bcolors.FAIL">
+<span class="sig-name descname"><span class="pre">FAIL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[91m'</span></em><a class="headerlink" href="#zenq.logger.logger.bcolors.FAIL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.logger.logger.bcolors.HEADER">
+<span class="sig-name descname"><span class="pre">HEADER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[95m'</span></em><a class="headerlink" href="#zenq.logger.logger.bcolors.HEADER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.logger.logger.bcolors.OKBLUE">
+<span class="sig-name descname"><span class="pre">OKBLUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[94m'</span></em><a class="headerlink" href="#zenq.logger.logger.bcolors.OKBLUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.logger.logger.bcolors.OKCYAN">
+<span class="sig-name descname"><span class="pre">OKCYAN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[96m'</span></em><a class="headerlink" href="#zenq.logger.logger.bcolors.OKCYAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.logger.logger.bcolors.OKGREEN">
+<span class="sig-name descname"><span class="pre">OKGREEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[92m'</span></em><a class="headerlink" href="#zenq.logger.logger.bcolors.OKGREEN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.logger.logger.bcolors.UNDERLINE">
+<span class="sig-name descname"><span class="pre">UNDERLINE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[4m'</span></em><a class="headerlink" href="#zenq.logger.logger.bcolors.UNDERLINE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="zenq.logger.logger.bcolors.WARNING">
+<span class="sig-name descname"><span class="pre">WARNING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[93m'</span></em><a class="headerlink" href="#zenq.logger.logger.bcolors.WARNING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-zenq.logger">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-zenq.logger" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">zenq</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">zenq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">zenq</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app.html">app module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages.html">pages package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="zenq.html">zenq package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">zenq</a><ul>
+  <li><a href="zenq.html">zenq package</a><ul>
+      <li>Previous: <a href="zenq.datapreparation.html" title="previous chapter">zenq.datapreparation package</a></li>
+      <li>Next: <a href="zenq.visualizations.html" title="next chapter">zenq.visualizations package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Nare Abgaryan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/zenq.logger.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

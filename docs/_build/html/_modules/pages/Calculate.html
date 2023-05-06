@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pages.Calculate &#8212; zenq 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pages.Calculate</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">plotly.figure_factory</span> <span class="k">as</span> <span class="nn">ff</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">sessionmaker</span>
+<span class="kn">from</span> <span class="nn">lifetimes</span> <span class="kn">import</span> <span class="n">BetaGeoFitter</span>
+<span class="kn">from</span> <span class="nn">lifetimes</span> <span class="kn">import</span> <span class="n">GammaGammaFitter</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">UniqueConstraint</span><span class="p">,</span> <span class="n">create_engine</span><span class="p">,</span> <span class="n">desc</span><span class="p">,</span> <span class="n">asc</span>
+<span class="kn">from</span> <span class="nn">lifetimes.utils</span> <span class="kn">import</span> <span class="n">calibration_and_holdout_data</span>
+<span class="kn">from</span> <span class="nn">zenq.visualizations.plot</span> <span class="kn">import</span> <span class="n">Visuals</span>
+<span class="kn">from</span> <span class="nn">zenq.clvmodels.pareto</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">zenq.api.prepare_db</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="kn">from</span> <span class="nn">zenq.api.endpoints</span> <span class="kn">import</span> <span class="n">insert_facts</span>
+<span class="kn">import</span> <span class="nn">dash</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">quote</span> <span class="k">as</span> <span class="n">urlquote</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span> 
+<span class="kn">from</span> <span class="nn">dash</span> <span class="kn">import</span> <span class="n">callback</span><span class="p">,</span><span class="n">Input</span><span class="p">,</span> <span class="n">Output</span><span class="p">,</span> <span class="n">State</span><span class="p">,</span> <span class="n">dcc</span><span class="p">,</span> <span class="n">html</span> 
+
+<span class="n">UPLOAD_DIRECTORY</span> <span class="o">=</span>  <span class="sa">r</span><span class="s2">&quot;zenq/api&quot;</span>
+
+<span class="n">dash</span><span class="o">.</span><span class="n">register_page</span><span class="p">(</span>
+    <span class="vm">__name__</span><span class="p">,</span>
+     <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/Calculate&#39;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Calculate&#39;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Calculate&#39;</span>
+<span class="p">)</span>
+ 
+<span class="n">layout</span> <span class="o">=</span>  <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="n">dcc</span><span class="o">.</span><span class="n">Upload</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;upload_buttom&#39;</span><span class="p">,</span>
+                <span class="n">children</span><span class="o">=</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span><span class="s1">&#39;Drag and Drop or &#39;</span><span class="p">,</span> <span class="n">html</span><span class="o">.</span><span class="n">A</span><span class="p">(</span><span class="s1">&#39;Select Files&#39;</span><span class="p">)],</span> <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;csv_text&#39;</span><span class="p">),</span>
+                <span class="p">),</span>        
+           <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">),]),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>    
+            <span class="n">dcc</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;input1&#39;</span><span class="p">,</span>
+                <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
+                <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39;csv name(globbing.csv)&#39;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">dcc</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;input2&#39;</span><span class="p">,</span>
+                <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
+                <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39;customer_id&#39;</span><span class="p">,</span>
+            <span class="p">),</span>
+            
+            <span class="c1"># Second input field</span>
+            <span class="n">dcc</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;input3&#39;</span><span class="p">,</span>
+                <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
+                <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span>
+            <span class="p">),</span>
+            
+            <span class="c1"># Third input field</span>
+            <span class="n">dcc</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;input4&#39;</span><span class="p">,</span>
+                <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
+                <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39;invoice_id&#39;</span><span class="p">,</span>
+            <span class="p">),</span>
+            
+            <span class="c1"># Fourth input field</span>
+            <span class="n">dcc</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;input5&#39;</span><span class="p">,</span>
+                <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
+                <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39;date&#39;</span><span class="p">,</span>
+            <span class="p">),</span>
+            
+            <span class="c1"># Fifth input field</span>
+            <span class="n">dcc</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;input6&#39;</span><span class="p">,</span>
+                <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
+                <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39;quantity&#39;</span><span class="p">,</span>
+            <span class="p">),</span>
+            
+            <span class="c1"># Sixth input field</span>
+            <span class="n">dcc</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;input7&#39;</span><span class="p">,</span>
+                <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
+                <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39;total_price&#39;</span><span class="p">,</span>
+            <span class="p">),],</span><span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;column_inputs&#39;</span><span class="p">),</span> 
+        
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;submit_button&#39;</span><span class="p">,</span>  <span class="n">n_clicks</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">children</span><span class="o">=</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span><span class="s1">&#39;Submit&#39;</span><span class="p">],</span> <span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;csv_text_1&#39;</span><span class="p">),</span>
+                <span class="p">),</span>        
+           <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">),]),</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="s1">&#39;Submit&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;submit_button&#39;</span><span class="p">,</span>  <span class="n">n_clicks</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span> <span class="p">}</span>  <span class="c1"># Center the button</span>
+        <span class="p">),</span> 
+         
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;output_div&#39;</span><span class="p">)</span>
+    <span class="p">],</span> <span class="n">className</span> <span class="o">=</span> <span class="s1">&#39;black_box33&#39;</span><span class="p">),</span>
+ 
+    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>          
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;time-series&#39;</span><span class="p">)</span>
+        <span class="p">],</span>
+                <span class="c1">#  className = &#39;rect1&#39;</span>
+                 <span class="p">),</span>
+          
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;gender_price&#39;</span><span class="p">)</span>
+                <span class="p">])</span>
+            
+            <span class="p">],</span> 
+                <span class="c1">#  className = &#39;rect2&#39;</span>
+                 <span class="p">)</span> <span class="p">,</span>              
+    <span class="p">],</span>  <span class="p">),</span>
+
+    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>  
+                      
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;rfm_treemap&#39;</span><span class="p">)],</span>
+                <span class="c1">#  className = &#39;rect3&#39;</span>
+                 <span class="p">),</span>
+          
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;top_customers_30days&#39;</span><span class="p">)],</span> 
+                <span class="c1">#  className = &#39;rect4&#39;</span>
+                 <span class="p">)</span> <span class="p">,</span>   
+                   
+    <span class="p">],</span><span class="n">className</span> <span class="o">=</span> <span class="s1">&#39;pordz&#39;</span><span class="p">),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>  
+                      
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;customer_aliveness&#39;</span><span class="p">)],</span>
+                <span class="c1">#  className = &#39;rect3&#39;</span>
+                 <span class="p">),</span>
+          
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;price_distribution&#39;</span><span class="p">)],</span> 
+                <span class="c1">#  className = &#39;rect4&#39;</span>
+                 <span class="p">)</span> <span class="p">,</span>   
+                   
+    <span class="p">],</span><span class="n">className</span> <span class="o">=</span> <span class="s1">&#39;pordz&#39;</span><span class="p">)</span>
+    <span class="p">])</span>
+
+<div class="viewcode-block" id="save_file"><a class="viewcode-back" href="../../pages.html#pages.Calculate.save_file">[docs]</a><span class="k">def</span> <span class="nf">save_file</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save a file uploaded with the dcc.Upload component.&quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;;base64,&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">UPLOAD_DIRECTORY</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">decodebytes</span><span class="p">(</span><span class="n">data</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="upload_files"><a class="viewcode-back" href="../../pages.html#pages.Calculate.upload_files">[docs]</a><span class="nd">@callback</span><span class="p">(</span>
+    <span class="n">Output</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="s2">&quot;children&quot;</span><span class="p">),</span>
+    <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;upload_buttom&quot;</span><span class="p">,</span> <span class="s2">&quot;filename&quot;</span><span class="p">),</span>
+    <span class="n">State</span><span class="p">(</span><span class="s2">&quot;upload_buttom&quot;</span><span class="p">,</span> <span class="s2">&quot;contents&quot;</span><span class="p">),</span>
+    <span class="n">prevent_initial_call</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">upload_files</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">contents</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save uploaded files and return a message to the user.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">UPLOAD_DIRECTORY</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">UPLOAD_DIRECTORY</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="c1"># user has uploaded a single file</span>
+        <span class="n">save_file</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">contents</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">names</span><span class="si">}</span><span class="s2"> uploaded&quot;</span></div>
+
+<div class="viewcode-block" id="process_inputs"><a class="viewcode-back" href="../../pages.html#pages.Calculate.process_inputs">[docs]</a><span class="nd">@callback</span><span class="p">(</span>
+    <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;output_div&#39;</span><span class="p">,</span> <span class="s1">&#39;children&#39;</span><span class="p">),</span>
+    <span class="c1"># Output(&#39;plot2&#39;, &#39;figure&#39;),</span>
+    <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;submit_button&#39;</span><span class="p">,</span> <span class="s1">&#39;n_clicks&#39;</span><span class="p">),</span>
+    <span class="n">State</span><span class="p">(</span><span class="s1">&#39;input1&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">),</span>
+    <span class="n">State</span><span class="p">(</span><span class="s1">&#39;input2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">),</span>
+    <span class="n">State</span><span class="p">(</span><span class="s1">&#39;input3&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">),</span>
+    <span class="n">State</span><span class="p">(</span><span class="s1">&#39;input4&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">),</span>
+    <span class="n">State</span><span class="p">(</span><span class="s1">&#39;input5&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">),</span>
+    <span class="n">State</span><span class="p">(</span><span class="s1">&#39;input6&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">),</span>
+    <span class="n">State</span><span class="p">(</span><span class="s1">&#39;input7&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+ 
+<span class="k">def</span> <span class="nf">process_inputs</span><span class="p">(</span><span class="n">n_clicks</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">,</span> <span class="n">gender</span><span class="p">,</span> <span class="n">invoice_id</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">total_price</span><span class="p">):</span>
+    <span class="n">initialize</span><span class="o">=</span><span class="n">db</span><span class="p">()</span>
+    <span class="n">initialize</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">n_clicks</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">insert_facts</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">,</span> <span class="n">gender</span><span class="p">,</span> <span class="n">invoice_id</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">total_price</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">Model</span><span class="p">()</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">cltv_df</span><span class="p">()</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">rfm_score</span><span class="p">()</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">fit_paretonbd</span><span class="p">()</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">model_params</span><span class="p">()</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">predict_paretonbd</span><span class="p">()</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">customer_is_alive</span><span class="p">()</span>
+        <span class="n">visuals</span> <span class="o">=</span> <span class="n">Visuals</span><span class="p">()</span>
+        <span class="n">time_series</span> <span class="o">=</span> <span class="n">visuals</span><span class="o">.</span><span class="n">time_series</span><span class="p">()</span>
+        <span class="n">price_distribution</span> <span class="o">=</span> <span class="n">visuals</span><span class="o">.</span><span class="n">price_distribution</span><span class="p">()</span>
+        <span class="n">gender_price</span>  <span class="o">=</span> <span class="n">visuals</span><span class="o">.</span><span class="n">gender_price</span><span class="p">()</span>
+        <span class="n">rfm_treemap</span> <span class="o">=</span> <span class="n">visuals</span><span class="o">.</span><span class="n">rfm_treemap</span><span class="p">()</span>
+        <span class="n">top_customers_30days</span> <span class="o">=</span> <span class="n">visuals</span><span class="o">.</span><span class="n">top_customers_30days</span><span class="p">()</span>
+        <span class="n">customer_aliveness</span> <span class="o">=</span> <span class="n">visuals</span><span class="o">.</span><span class="n">customer_aliveness</span><span class="p">()</span>
+        
+        <span class="c1"># return html.P(&quot;Data has been inserted into the database.&quot;), dcc.Graph(figure=fig) </span>
+        <span class="k">return</span> <span class="p">[</span>
+        <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;time_series&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">time_series</span><span class="p">),</span>
+        <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;price_distribution&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">price_distribution</span><span class="p">),</span>
+        <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;gender_price&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">gender_price</span><span class="p">),</span>
+        <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;rfm_treemap&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">rfm_treemap</span><span class="p">),</span>
+        <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;top_customers_30days&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">top_customers_30days</span><span class="p">),</span>
+        <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;customer_aliveness&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">customer_aliveness</span><span class="p">)</span>
+ 
+        <span class="p">]</span> </div>
+    
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8058</span><span class="p">)</span>
+    
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">zenq</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">zenq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">zenq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Nare Abgaryan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
