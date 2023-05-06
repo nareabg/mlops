@@ -1,6 +1,7 @@
 import dash
 
 from dash import Dash, dcc, html, Input, Output, State
+
 app = dash.Dash(__name__, use_pages=True,suppress_callback_exceptions=True)
 server=app.server
 

@@ -1,0 +1,46 @@
+openapi: 3.0.0
+info:
+  title: "Breast Cancer Flask REST API"
+  description: "An API for predicting breast cancer type"
+  version: "1.0.0"
+  
+servers:
+  - url: "/"
+  
+paths:
+  /:
+    get:
+      operationId: "endpoints_metric.summary"
+      tags:
+        - "summary"
+      summary: "Logs Analysis."
+      responses:
+        "200":
+          description: ""
+  /avg_log_messages_per_module:
+    get:
+      operationId: "endpoints_metric.metrics"
+      tags:
+        - "metadata"
+      summary: "Returns the average number of log messages per module"
+      responses:
+        "200":
+          description: "Successfully returned the average number of log messages per module"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  avg_log_messages_per_module:
+                    type: object
+                    additionalProperties:
+                      type: number
+  # /metrics:
+  #   get:
+  #     operationId: "endpoints_metric.metrics"
+  #     tags:
+  #       - "metrics"
+  #     summary: "Prints the metrics."
+  #     responses:
+  #       "200":
+  #         description: ""
