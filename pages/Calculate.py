@@ -174,6 +174,7 @@ def upload_files(names, contents):
 )
  
 def process_inputs(n_clicks, filename, customer_id, gender, invoice_id, date, quantity, total_price):
+    
     initialize=db()
     initialize.main()
     if n_clicks > 0:

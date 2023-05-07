@@ -1,40 +1,100 @@
+# openapi: 3.0.0
+# info:
+#   title: "Breast Cancer Flask REST API"
+#   description: "An API for predicting breast cancer type"
+#   version: "1.0.0"
+  
+# servers:
+#   - url: "/"
+  
+# paths:
+#   /:
+#     get:
+#       operationId: "endpoints_metric.summary"
+#       tags:
+#         - "summary"
+#       summary: "Logs Analysis."
+#       responses:
+#         "200":
+#           description: ""
+#   /avg_log_messages_per_module:
+#     get:
+#       operationId: "endpoints_metric.metrics"
 openapi: 3.0.0
 info:
-  title: "Breast Cancer Flask REST API"
-  description: "An API for predicting breast cancer type"
-  version: "1.0.0"
+  title: "Endpoint Metrics API"
+  description: "API for retrieving endpoint metrics."
+  version: "1.0.0"     
   
 servers:
   - url: "/"
-  
 paths:
   /:
     get:
+      summary: "Retrieve endpoint metrics"
       operationId: "endpoints_metric.summary"
       tags:
-        - "summary"
-      summary: "Logs Analysis."
+        - "metrics"
       responses:
-        "200":
-          description: ""
-  /avg_log_messages_per_module:
-    get:
-      operationId: "endpoints_metric.metrics"
-      tags:
-        - "metadata"
-      summary: "Returns the average number of log messages per module"
-      responses:
-        "200":
-          description: "Successfully returned the average number of log messages per module"
+        200:
+          description: "OK"
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  avg_log_messages_per_module:
+                  num_errors:
+                    type: integer
+                    description: "Number of ERROR messages"
+                  num_info:
+                    type: integer
+                    description: "Number of INFO messages"
+                  num_warning:
+                    type: integer
+                    description: "Number of WARNING messages"
+                  common_errors:
                     type: object
-                    additionalProperties:
-                      type: number
+                    description: "Most common errors"
+                    properties:
+                      error_type:
+                        type: string
+                  func_execution_time:
+                    type: object
+                    description: "Time taken to execute each function"
+                    properties:
+                      function_name:
+                        type: string
+                        description: "Name of the function"
+                      buckets:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            le:
+                              type: number
+                            count:
+                              type: integer
+      x-swagger-router-controller: "endpoints_metric"
+
+        
+
+
+
+      # tags:
+      #   - "metadata"
+      # summary: "Returns the average number of log messages per module"
+      # responses:
+      #   "200":
+      #     description: "Successfully returned the average number of log messages per module"
+      #     content:
+      #       application/json:
+      #         schema:
+      #           type: object
+      #           properties:
+      #             avg_log_messages_per_module:
+      #               type: object
+      #               additionalProperties:
+      #                 type: number
   # /metrics:
   #   get:
   #     operationId: "endpoints_metric.metrics"

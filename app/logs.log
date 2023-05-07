@@ -1,0 +1,110 @@
+
+[38;20m/2023-05-05 07:07:18,483 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-05 07:07:20,604 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-05 07:07:20,709 / pareto.py / INFO / rfm_score/ 1960 rows written to RFMScore table /pareto.py/131/[0m
+[38;20m/2023-05-05 07:07:22,291 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-05 07:07:30,065 / pareto.py / INFO / model_params/ Model initiation done. /pareto.py/144/[0m
+[38;20m/2023-05-05 07:07:31,421 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-05 07:07:38,301 / pareto.py / INFO / model_params/ Model initiation done. /pareto.py/144/[0m
+[38;20m/2023-05-05 07:07:38,350 / pareto.py / INFO / model_params / Model parameters inserted to table ParetoParameters /pareto.py/173/[0m
+[38;20m/2023-05-05 07:07:39,787 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-05 07:07:48,856 / pareto.py / INFO / model_params/ Model initiation done. /pareto.py/144/[0m
+[38;20m/2023-05-05 07:07:48,972 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-05 07:07:49,274 / pareto.py / INFO / predict_paretonbd / 1960 rows written to Prediction table /pareto.py/198/[0m
+[38;20m/2023-05-05 07:07:49,383 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-05 07:08:09,170 / pareto.py / INFO / model_params/ Model initiation done. /pareto.py/144/[0m
+[38;20m/2023-05-05 07:08:09,299 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-05 07:08:09,362 / pareto.py / INFO / customer_is_alive/ 1960 rows written to CustomerAlive table /pareto.py/218/[0m
+[31;20m/2023-05-05 07:23:12,581 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/58/[0m
+[31;20m/2023-05-05 07:23:12,588 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/65/[0m
+[31;20m/2023-05-05 07:23:12,615 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/58/[0m
+[31;20m/2023-05-05 07:23:12,618 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/65/[0m
+[31;20m/2023-05-05 07:23:13,003 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/58/[0m
+[31;20m/2023-05-05 07:23:13,008 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/65/[0m
+[31;20m/2023-05-06 17:18:29,779 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 17:18:29,790 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-06 17:18:29,833 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 17:18:29,839 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-06 17:18:30,594 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 17:18:30,600 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-06 17:21:29,672 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 17:21:29,680 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-06 17:21:29,721 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 17:21:29,727 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-06 17:21:30,245 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 17:21:30,252 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-06 17:22:51,317 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 17:22:51,324 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-06 17:22:51,363 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 17:22:51,370 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-06 17:22:51,872 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 17:22:51,878 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-06 17:24:59,052 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 17:24:59,058 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-06 17:24:59,093 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 17:24:59,098 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-06 17:24:59,664 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 17:24:59,672 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[38;20m/2023-05-06 17:28:22,393 / endpoints.py / INFO / insert_facts/ Finished inserting facts. /endpoints.py/197/[0m
+[38;20m/2023-05-06 17:28:46,306 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-06 17:28:46,566 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-06 17:28:46,726 / pareto.py / INFO / rfm_score/ 1960 rows written to RFMScore table /pareto.py/131/[0m
+[38;20m/2023-05-06 17:28:46,944 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-06 17:29:06,858 / pareto.py / INFO / model_params/ Model initiation done. /pareto.py/144/[0m
+[38;20m/2023-05-06 17:29:07,082 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-06 17:29:49,851 / pareto.py / INFO / model_params/ Model initiation done. /pareto.py/144/[0m
+[38;20m/2023-05-06 17:29:49,939 / pareto.py / INFO / model_params / Model parameters inserted to table ParetoParameters /pareto.py/173/[0m
+[38;20m/2023-05-06 17:29:50,159 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-06 17:30:27,101 / pareto.py / INFO / model_params/ Model initiation done. /pareto.py/144/[0m
+[38;20m/2023-05-06 17:30:27,315 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-06 17:30:27,916 / pareto.py / INFO / predict_paretonbd / 1960 rows written to Prediction table /pareto.py/198/[0m
+[38;20m/2023-05-06 17:30:28,134 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-06 17:31:03,666 / pareto.py / INFO / model_params/ Model initiation done. /pareto.py/144/[0m
+[38;20m/2023-05-06 17:31:03,881 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-06 17:31:04,020 / pareto.py / INFO / customer_is_alive/ 1960 rows written to CustomerAlive table /pareto.py/218/[0m
+[31;20m/2023-05-06 23:10:58,688 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 23:10:58,691 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-06 23:10:58,713 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 23:10:58,716 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-06 23:10:59,094 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 23:10:59,098 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[38;20m/2023-05-06 23:11:53,905 / endpoints.py / INFO / insert_facts/ Finished inserting facts. /endpoints.py/197/[0m
+[38;20m/2023-05-06 23:11:54,158 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-06 23:11:54,258 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-06 23:11:54,336 / pareto.py / INFO / rfm_score/ 1960 rows written to RFMScore table /pareto.py/131/[0m
+[38;20m/2023-05-06 23:11:54,434 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-06 23:12:00,538 / pareto.py / INFO / model_params/ Model initiation done. /pareto.py/144/[0m
+[38;20m/2023-05-06 23:12:00,654 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-06 23:12:15,385 / pareto.py / INFO / model_params/ Model initiation done. /pareto.py/144/[0m
+[38;20m/2023-05-06 23:12:15,440 / pareto.py / INFO / model_params / Model parameters inserted to table ParetoParameters /pareto.py/173/[0m
+[38;20m/2023-05-06 23:12:15,534 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[31;20m/2023-05-06 23:52:02,745 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 23:52:02,750 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-06 23:52:02,784 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 23:52:02,788 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-06 23:52:03,175 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-06 23:52:03,178 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[38;20m/2023-05-06 23:55:04,314 / endpoints.py / INFO / insert_facts/ Finished inserting facts. /endpoints.py/197/[0m
+[38;20m/2023-05-07 15:03:23,140 / endpoints.py / INFO / insert_facts/ Finished inserting facts. /endpoints.py/197/[0m
+[38;20m/2023-05-07 15:03:23,326 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-07 15:03:23,426 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-07 15:03:23,517 / pareto.py / INFO / rfm_score/ 1960 rows written to RFMScore table /pareto.py/131/[0m
+[38;20m/2023-05-07 15:03:23,618 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-07 15:03:38,265 / pareto.py / INFO / model_params/ Model initiation done. /pareto.py/144/[0m
+[38;20m/2023-05-07 15:03:38,390 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-07 15:03:47,444 / pareto.py / INFO / model_params/ Model initiation done. /pareto.py/144/[0m
+[38;20m/2023-05-07 15:03:47,487 / pareto.py / INFO / model_params / Model parameters inserted to table ParetoParameters /pareto.py/173/[0m
+[38;20m/2023-05-07 15:03:47,580 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-07 15:03:56,553 / pareto.py / INFO / model_params/ Model initiation done. /pareto.py/144/[0m
+[38;20m/2023-05-07 15:03:56,679 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-07 15:03:56,975 / pareto.py / INFO / predict_paretonbd / 1960 rows written to Prediction table /pareto.py/198/[0m
+[38;20m/2023-05-07 15:03:57,068 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-07 15:04:04,972 / pareto.py / INFO / model_params/ Model initiation done. /pareto.py/144/[0m
+[38;20m/2023-05-07 15:04:05,098 / pareto.py / INFO / cltv_df/ 1960 rows written to CLTV table /pareto.py/90/[0m
+[38;20m/2023-05-07 15:04:05,160 / pareto.py / INFO / customer_is_alive/ 1960 rows written to CustomerAlive table /pareto.py/218/[0m
+[31;20m/2023-05-07 15:19:16,141 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-07 15:19:16,147 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-07 15:19:16,176 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-07 15:19:16,180 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
+[31;20m/2023-05-07 15:19:16,586 / tables.py / ERROR / connect_to_db/Failed to create schema 'initial' /tables.py/59/[0m
+[31;20m/2023-05-07 15:19:16,590 / tables.py / ERROR / connect_to_db/Failed to create schema 'result' /tables.py/66/[0m
