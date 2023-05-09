@@ -1,25 +1,55 @@
-#http://prometheus:9090
-version: '3'
-services:
+# #http://prometheus:9090
+# version: '3'
+# services:
 
-  ml_api:
-    build:
-      context: ./app
-      dockerfile: Dockerfile
-    volumes: 
-      - ./app:/app
-    ports:
-      - "2000:2000"
+#   ml_api:
+#     build:
+#       context: ./app
+#       dockerfile: Dockerfile
+#     volumes: 
+#       - ./app:/app
+#     ports:
+#       - "2000:2000"
       
+#   prometheus:
+#     image: prom/prometheus
+#     ports:
+#       - "9090:9090"
+#     volumes:
+#       - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      
+#   grafana:
+#     hostname: grafana
+#     image: grafana/grafana
+#     ports:
+#       - "4000:3000"
+
+version: '3'
+
+services:
   prometheus:
     image: prom/prometheus
     ports:
       - "9090:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      
+
   grafana:
     hostname: grafana
     image: grafana/grafana
     ports:
       - "4000:3000"
+
+  flask_app:
+    build:
+      context: .
+    ports:
+      - "8058:8058"
+    depends_on:
+      - prometheus
+    environment:
+      - PROMETHEUS_MULTIPROC_DIR=/tmp
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+    command: flask run --host=0.0.0.0 --port=8058
+
