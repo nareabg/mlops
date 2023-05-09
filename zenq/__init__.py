@@ -9,4 +9,6 @@ from . import visualizations
 from . import api
 from . import logger
 from . import datapreparation
+from . import tests
+
 
