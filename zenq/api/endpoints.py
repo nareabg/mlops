@@ -20,7 +20,7 @@ logger = logging.getLogger(os.path.basename(__file__))
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)
 ch.setFormatter(CustomFormatter())
-file_handler = logging.FileHandler('../api/logs.log')
+file_handler = logging.FileHandler('../zenq/api/logs.log')
 file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(CustomFormatter())
 logger.addHandler(file_handler)
@@ -33,7 +33,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 
-def insert_logs_to_db(log_file_path='zenq/api/logs.log'):
+def insert_logs_to_db(log_file_path='../zenq/api/logs.log'):
     """
 
     Parameters
