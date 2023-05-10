@@ -74,11 +74,10 @@ import datetime
 import pytest
 import os
 from zenq.api.endpoints import insert_facts
+
 facts=Facts() 
 metadata, engine = facts.connect_to_db(db_uri)
-
 session = sessionmaker(bind=engine)()
-
 @pytest.mark.db
 def test_main():
     mydb = db()
