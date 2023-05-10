@@ -1,4 +1,5 @@
 from .tables import Facts, Base
+#, LOGS, CLTV, CustomerAlive, Prediction, RFMScore, ParetoParameters
 from .prepare_db import db
 from .endpoints import insert_facts, update_log, insert_logs_to_db
 from zenq.logger import CustomFormatter, bcolors

@@ -1,6 +1,7 @@
 import sqlalchemy
 import logging
 import os
+import traceback
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, DateTime, exc, Sequence, UniqueConstraint , text
 from sqlalchemy_utils import database_exists, create_database, drop_database
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
@@ -30,6 +31,7 @@ class Facts(Base):
     """
     class defines the structure and behavior of database tables in both schemas
     """
+    
     def connect_to_db(self, db_uri):
         """
 
@@ -51,6 +53,8 @@ class Facts(Base):
         Session = sessionmaker(bind=engine)
         # Get the metadata object associated with the database tables
         metadata = Base.metadata
+        # engine.connect().execute(CreateSchema('initial', if_not_exists=True))
+        # engine.connect().execute(CreateSchema('result', if_not_exists=True))
         with engine.connect() as conn:
             try:
                 # Create a schema named 'initial' if it doesn't exist yet
@@ -65,7 +69,6 @@ class Facts(Base):
             except exc.SQLAlchemyError:
                 logger.error(f"{self.connect_to_db.__name__}/Failed to create schema 'result'")
                 pass       
-        # Return the metadata and engine objects for further use    
         return metadata, engine
     
     # Define the Facts table
@@ -101,8 +104,8 @@ class Facts(Base):
         message = Column(String(2000), nullable=False)
         line_number = Column(Integer, nullable=False)
         load_time = Column(DateTime, nullable=False)     
-    
-          
+
+        
     class CLTV(Base):
         """ 
             define the CLTV table    
@@ -140,8 +143,8 @@ class Facts(Base):
         Expected_Purchases_90 = Column(Float, nullable=False)
         Expected_Purchases_180 = Column(Float, nullable=False)
         Expected_Purchases_360 = Column(Float, nullable=False)
-    
-  
+
+
     class RFMScore(Base):
         """
             define the RFMScore table    
@@ -155,7 +158,7 @@ class Facts(Base):
         monetary_score=Column(Integer, nullable=False)
         RFM_SCORE = Column(Integer, nullable=False)
         segment = Column(String(50), nullable=False)
-         
+            
     class ParetoParameters(Base):     
         """
             define the ParetoParameters table
@@ -167,4 +170,4 @@ class Facts(Base):
         alpha = Column(Float, nullable=False)
         s = Column(Float, nullable=False)
         beta = Column(Float, nullable=False)
-       
+        

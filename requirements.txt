@@ -47,6 +47,8 @@ Lifetimes==0.11.3
 MarkupSafe==2.1.2
 matplotlib==3.7.1
 matplotlib-inline==0.1.6
+# psutil==5.8.0
+prometheus-client==0.11.0
 mccabe==0.6.1
 numpy==1.24.3
 packaging==23.1

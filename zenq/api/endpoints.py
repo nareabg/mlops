@@ -27,7 +27,7 @@ logger.addHandler(file_handler)
 logger.addHandler(ch)
 
 # Define the LOGS table and create the database session
-LOGS = Facts.LOGS
+LOGS = Facts.LOGS()
 engine = create_engine(db_uri)
 Session = sessionmaker(bind=engine)
 session = Session()

@@ -1,7 +1,7 @@
 import sys
 import os
 import logging
-
+import traceback
 # Importing sqlalchemy libraries to work with database
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
