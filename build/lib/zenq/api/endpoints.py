@@ -27,95 +27,95 @@ logger.addHandler(file_handler)
 logger.addHandler(ch)
 
 # Define the LOGS table and create the database session
-LOGS = Facts.LOGS
+# LOGS = Facts.LOGS
 engine = create_engine(db_uri)
 Session = sessionmaker(bind=engine)
 session = Session()
 
 
-def insert_logs_to_db(log_file_path='zenq/api/logs.log'):
-    """
+# def insert_logs_to_db(log_file_path='zenq/api/logs.log'):
+#     """
 
-    Parameters
-    ----------
-    log_file_path :
-         (Default value = 'zenq/api/logs.log')
+#     Parameters
+#     ----------
+#     log_file_path :
+#          (Default value = 'zenq/api/logs.log')
 
-    Returns
-    -------
-    inserts data into database LOGS table
-    """
-    with open(log_file_path, 'r') as f:
-        log_contents = f.read()
+#     Returns
+#     -------
+#     inserts data into database LOGS table
+#     """
+#     with open(log_file_path, 'r') as f:
+#         log_contents = f.read()
         
-    # Remove escape sequences from the log file    
-    log_contents = re.sub(r'\x1b\[\d+;\d+m', '', log_contents)
+#     # Remove escape sequences from the log file    
+#     log_contents = re.sub(r'\x1b\[\d+;\d+m', '', log_contents)
     
-    # Split the log file into lines and remove empty lines
-    log_lines = [line.split('\x1b[0m')[0] for line in log_contents.split('\n')]
-    log_lines = [line for line in log_lines if line.strip()]
+#     # Split the log file into lines and remove empty lines
+#     log_lines = [line.split('\x1b[0m')[0] for line in log_contents.split('\n')]
+#     log_lines = [line for line in log_lines if line.strip()]
     
-    # Parse the log data and insert it into the database
-    for line in log_lines:
-        my_string = line
-        timestamp = my_string.split('/')[1].strip()     
-        filename = my_string.split('/')[2].strip()   
-        error_level = my_string.split('/')[3].strip()
-        function_name = my_string.split('/')[4].strip()
-        my_message = my_string.split('/')[5].strip()
-        line_number = my_string.split('/')[7].strip().rstrip('/')
-        load_time = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S,%f')
-        log_obj = LOGS(level=error_level, file_name=filename, func_name=function_name, message=my_message, line_number=int(line_number), load_time=load_time)
-        session.add(log_obj)
+#     # Parse the log data and insert it into the database
+#     for line in log_lines:
+#         my_string = line
+#         timestamp = my_string.split('/')[1].strip()     
+#         filename = my_string.split('/')[2].strip()   
+#         error_level = my_string.split('/')[3].strip()
+#         function_name = my_string.split('/')[4].strip()
+#         my_message = my_string.split('/')[5].strip()
+#         line_number = my_string.split('/')[7].strip().rstrip('/')
+#         load_time = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S,%f')
+#         log_obj = LOGS(level=error_level, file_name=filename, func_name=function_name, message=my_message, line_number=int(line_number), load_time=load_time)
+#         session.add(log_obj)
         
-    # Commit the changes and close the session    
-    session.commit()
-    session.close()
+#     # Commit the changes and close the session    
+#     session.commit()
+#     session.close()
 
-def update_log(log_file_path='zenq/api/logs.log'):
-    """
+# def update_log(log_file_path='zenq/api/logs.log'):
+#     """
 
-    Parameters
-    ----------
-    log_file_path :
-         (Default value = 'zenq/api/logs.log')
+#     Parameters
+#     ----------
+#     log_file_path :
+#          (Default value = 'zenq/api/logs.log')
 
-    Returns
-    -------
-    inserts into LOGS table data that are bigger than the mac date in the database
-    """
+#     Returns
+#     -------
+#     inserts into LOGS table data that are bigger than the mac date in the database
+#     """
     
-    # Get the max timestamp from the LOGS table
-    max_time = session.query(func.max(LOGS.load_time)).scalar()
-    if not max_time:
-        max_time = datetime.min
+#     # Get the max timestamp from the LOGS table
+#     max_time = session.query(func.max(LOGS.load_time)).scalar()
+#     if not max_time:
+#         max_time = datetime.min
 
-    # Read the log file and remove escape sequences
-    with open(log_file_path, 'r') as f:
-        log_contents = f.read()
-    log_contents = re.sub(r'\x1b\[\d+;\d+m', '', log_contents)
+#     # Read the log file and remove escape sequences
+#     with open(log_file_path, 'r') as f:
+#         log_contents = f.read()
+#     log_contents = re.sub(r'\x1b\[\d+;\d+m', '', log_contents)
     
-    # Split the log file into lines and remove empty lines
-    log_lines = [line.split('\x1b[0m')[0] for line in log_contents.split('\n')]
-    log_lines = [line for line in log_lines if line.strip()]
+#     # Split the log file into lines and remove empty lines
+#     log_lines = [line.split('\x1b[0m')[0] for line in log_contents.split('\n')]
+#     log_lines = [line for line in log_lines if line.strip()]
 
-    # Parse the log data and insert it into the database
-    for line in log_lines:
-        my_string = line
-        timestamp = my_string.split('/')[1].strip()
-        load_time = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S,%f')
-        if load_time > max_time:
-            filename = my_string.split('/')[2].strip()
-            error_level = my_string.split('/')[3].strip()
-            function_name = my_string.split('/')[4].strip()
-            my_message = my_string.split('/')[5].strip()
-            line_number = my_string.split('/')[7].strip().rstrip('/')
-            log_obj = LOGS(level=error_level, file_name=filename, func_name=function_name, message=my_message, line_number=int(line_number), load_time=load_time)
-            session.add(log_obj)
+#     # Parse the log data and insert it into the database
+#     for line in log_lines:
+#         my_string = line
+#         timestamp = my_string.split('/')[1].strip()
+#         load_time = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S,%f')
+#         if load_time > max_time:
+#             filename = my_string.split('/')[2].strip()
+#             error_level = my_string.split('/')[3].strip()
+#             function_name = my_string.split('/')[4].strip()
+#             my_message = my_string.split('/')[5].strip()
+#             line_number = my_string.split('/')[7].strip().rstrip('/')
+#             log_obj = LOGS(level=error_level, file_name=filename, func_name=function_name, message=my_message, line_number=int(line_number), load_time=load_time)
+#             session.add(log_obj)
             
-    # Commit the changes and close the session         
-    session.commit()
-    session.close()
+#     # Commit the changes and close the session         
+#     session.commit()
+#     session.close()
 
         
 def insert_facts(filename, customer_id, gender, invoice_id, date, quantity, total_price):

@@ -69,6 +69,8 @@ import dash
 from dash import dcc, html
 from prometheus_flask_exporter import PrometheusMetrics
 import psutil
+from flask import Response
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 from flask import Flask
 from apscheduler.schedulers.background import BackgroundScheduler
 from prometheus_client import Gauge
@@ -90,6 +92,11 @@ def update_metrics():
 
 # update metrics every 10 seconds
 scheduler.add_job(update_metrics, 'interval', seconds=10)
+scheduler.start()
+@app.server.route('/metrics')
+def metrics():
+    return Response(generate_latest(), mimetype=CONTENT_TYPE_LATEST)
+
 
 image_filename = 'logo.jpeg'
 

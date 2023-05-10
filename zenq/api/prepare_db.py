@@ -27,7 +27,7 @@ logger.addHandler(ch)
 # Creating an instance of the Facts class and connecting to the database using SQLAlchemy
 Facts = Facts()
 metadata, engine = Facts.connect_to_db(db_uri)
-
+print(db_uri)
 class db():
     """ 
         class provides methods for creating and managing a database 
@@ -37,7 +37,7 @@ class db():
         """
             initializing the database, dropping and creating tables using metadata
         """
-        # logger.info(f"{db.__name__}/Initializing the database...")
+        logger.info(f"{db.__name__}/Initializing the database...")
         
         try:
             # Checking if the database already exists and creating a new one if it doesn't
@@ -46,7 +46,7 @@ class db():
             # Dropping and creating tables using metadata    
             metadata.drop_all(bind=engine)
             metadata.create_all(bind=engine)
-            # logger.info(f"{db.__name__}/Database successfully initialized")
+            logger.info(f"{db.__name__}/Database successfully initialized")
         except Exception as e:
             logger.error(f"{db.__name__}/Error occurred while initializing the database: {e}")
             logger.debug(traceback.format_exc())        

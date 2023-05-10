@@ -72,7 +72,24 @@ services:
     networks:
       - my-network
 
-  # flask_app:
+  flask_app:
+    build:
+      context: .
+    depends_on:
+      - prometheus
+    environment:
+      - PROMETHEUS_MULTIPROC_DIR=/tmp
+    command: python3 app.py
+    ports:
+      - "8058:8058"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
+
+# flask_app:
   #   build:
   #     context: .
   #   depends_on:
@@ -83,20 +100,3 @@ services:
   #   networks:
   #     - my-network
       
-
-  flask_app:
-    build:
-      context: .
-    depends_on:
-      - prometheus
-    environment:
-      - PROMETHEUS_MULTIPROC_DIR=/tmp
-    command: python3 app.py
-    networks:
-      my-network:
-        aliases:
-          - flask_app
-
-networks:
-  my-network:
-    driver: bridge
