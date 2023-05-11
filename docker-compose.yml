@@ -79,7 +79,7 @@ services:
       - prometheus
     environment:
       - PROMETHEUS_MULTIPROC_DIR=/tmp
-    command: python3 app.py
+    command: python3 app.py && python3 pages/Calculate.py
     ports:
       - "8058:8058"
     networks:
