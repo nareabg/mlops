@@ -89,10 +89,10 @@ layout =  html.Div([
                 children=html.Div(['Submit'], id = 'csv_text_1'),
                 ),        
            html.Div(id="output"),]),
-            html.Div(
-            html.Button('Submit', id='submit_button',  n_clicks=0),
-            style={'textAlign': 'center' }  # Center the button
-        ), 
+        #     html.Div(
+        #     html.Button('Submit', id='submit_button',  n_clicks=0),
+        #     style={'textAlign': 'center' }  # Center the button
+        # ), 
          
         html.Div(id='output_div')
     ], className = 'black_box33'),
